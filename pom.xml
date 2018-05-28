@@ -45,6 +45,19 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- Swagger Documentation -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<!-- Swagger Documentation End-->
+		<!-- Testing Dependency Start -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -55,6 +68,7 @@
 			<artifactId>mockito-core</artifactId>
 			<version>2.8.9</version>
 		</dependency>
+		<!-- Testing Dependency End -->
 	</dependencies>
 
 	<build>
