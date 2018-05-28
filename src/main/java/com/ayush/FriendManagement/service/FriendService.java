@@ -34,12 +34,11 @@ public class FriendService {
         } catch(DataIntegrityViolationException e){
             throw new FriendAlreadyExistException();
         }
-
-
         return true;
-
-
-
     }
 
+    public List<String> getFriends(String requestEmail){
+        return friendDao.getFriends(requestEmail);
+
+    }
 }

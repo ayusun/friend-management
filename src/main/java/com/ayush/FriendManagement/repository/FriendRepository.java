@@ -2,12 +2,11 @@ package com.ayush.FriendManagement.repository;
 
 import com.ayush.FriendManagement.entity.FriendEntity;
 import com.ayush.FriendManagement.entity.FriendEntityPk;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class FriendRepository {
@@ -34,7 +33,12 @@ public class FriendRepository {
         } catch(Exception e){
             e.printStackTrace();
         }
+    }
 
+    public List<String> getFriends(String emailId){
+       return em.createQuery("select f.pk.emailTo FROM FriendEntity f WHERE f.pk.emailFrom=:email", String.class)
+                .setParameter("email", emailId)
+                .getResultList();
     }
 
 
