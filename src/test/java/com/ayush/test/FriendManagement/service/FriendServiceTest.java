@@ -80,4 +80,30 @@ public class FriendServiceTest {
         List<String> returnList = serviceUnderTest.getFriends(requestedEmail);
         assertThat(returnList.size(), is(equalTo(2)));
     }
+
+    @Test(expected = RepeatedFriendNameException.class)
+    public void testGetMutualFriendsWithTwoSameNames(){
+        String email1 = "abc@example.com";
+        String email2 = "ABC@example.com";
+        serviceUnderTest.getMutualFriends(Arrays.asList(email1, email2));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetMutualFriendsWithNullEmail(){
+        serviceUnderTest.getMutualFriends(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetMutualFriendsWithOneEmail(){
+        serviceUnderTest.getMutualFriends(Arrays.asList("abc@example.com"));
+    }
+
+    @Test
+    public void testGetMutualFriends(){
+        when(friendDao.getMutualFriends(anyString(), anyString())).thenReturn(Arrays.asList("test1@example.com", "test2@example.com"));
+        String email1 = "abc@example.com";
+        String email2 = "def@example.com";
+        List<String> response = serviceUnderTest.getMutualFriends(Arrays.asList(email1, email2));
+        assertThat(response.size(), is(equalTo(2)));
+    }
 }
