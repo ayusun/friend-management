@@ -4,11 +4,11 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.EmbeddedId;
+import java.io.Serializable;
 
 @Embeddable
 @Data
-public class FriendEntityPk {
+public class FriendEntityPk implements Serializable {
 
     @Column(name="friend_email_from")
     private String emailFrom;
