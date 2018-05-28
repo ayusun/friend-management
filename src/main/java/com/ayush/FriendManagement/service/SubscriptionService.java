@@ -1,7 +1,6 @@
 package com.ayush.FriendManagement.service;
 
 import com.ayush.FriendManagement.RepeatedArgumentException;
-import com.ayush.FriendManagement.exceptions.FriendAlreadyExistException;
 import com.ayush.FriendManagement.exceptions.SubscriptionAlreadyExistException;
 import com.ayush.FriendManagement.repository.SubscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,19 @@ public class SubscriptionService {
     @Autowired
     private SubscriptionRepository subscriptionDao;
 
+    /**
+     * This method created Subscription between two emails provided
+     *
+     * NOTE : Emails should have been verified before calling this method
+     *
+     * @param requestor who has requested to be subscribed
+     * @param target email who requester wants to get subscribed to
+     *
+     * @return
+     * @throws RepeatedArgumentException if both the requestor and target are same
+     * @throws IllegalArgumentException if either of the email is null, or blank
+     * @throws SubscriptionAlreadyExistException if subscription already exist in the database
+     */
     public boolean createSubscription(final String requestor, final String target) throws RepeatedArgumentException, IllegalArgumentException {
 
         if(requestor == null || target == null || requestor.length() == 0 || target.length() == 0){

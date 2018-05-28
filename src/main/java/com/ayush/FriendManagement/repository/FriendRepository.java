@@ -8,12 +8,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+/**
+ * This Repository deals with the Friend Table
+ *
+ * @author Ayush
+ */
 @Repository
 public class FriendRepository {
 
     @PersistenceContext
     private EntityManager em;
 
+    /**
+     * Stores the record for friendship. It makes two entry to represent bi-directional friendship
+     * @param email1 emaildId of Person1
+     * @param email2 emailId of person 2
+     */
     public void saveFriendShip(String email1, String email2){
         try {
             FriendEntity entity1 = new FriendEntity();
@@ -35,12 +45,24 @@ public class FriendRepository {
         }
     }
 
+
+    /**
+     * Get List of Friends for a email Id. This might return blank list if there are no records
+     * @param emailId
+     * @return
+     */
     public List<String> getFriends(String emailId){
        return em.createQuery("select f.pk.emailTo FROM FriendEntity f WHERE f.pk.emailFrom=:email", String.class)
                 .setParameter("email", emailId)
                 .getResultList();
     }
 
+    /**
+     * Get List of Mutual Friends given two email id
+     * @param email1  Email Id of first person
+     * @param email2  EmailId of second Person
+     * @return
+     */
     public List<String> getMutualFriends(String email1, String email2){
         return (List<String>)em.createNativeQuery("(select friend_email_to from friend where friend_email_from=:email1) INTERSECT" +
                 "(select friend_email_to from friend where friend_email_from=:email2)")

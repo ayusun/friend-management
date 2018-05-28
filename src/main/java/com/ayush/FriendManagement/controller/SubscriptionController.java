@@ -2,7 +2,6 @@ package com.ayush.FriendManagement.controller;
 
 import com.ayush.FriendManagement.RepeatedArgumentException;
 import com.ayush.FriendManagement.enums.ErrorEnums;
-import com.ayush.FriendManagement.exceptions.FriendAlreadyExistException;
 import com.ayush.FriendManagement.exceptions.SubscriptionAlreadyExistException;
 import com.ayush.FriendManagement.requestVO.SubscriptionRequestVO;
 import com.ayush.FriendManagement.service.SubscriptionService;

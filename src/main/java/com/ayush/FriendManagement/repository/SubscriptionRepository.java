@@ -16,6 +16,11 @@ public class SubscriptionRepository {
     @PersistenceContext
     private EntityManager em;
 
+    /**
+     * Stores the record for Subscription. It makes single entry into the database
+     * @param email1 emaildId of Person1
+     * @param email2 emailId of person 2
+     */
     public void saveSubscription(String email1, String email2){
         try {
             SubscriptionEntity entity = new SubscriptionEntity();
