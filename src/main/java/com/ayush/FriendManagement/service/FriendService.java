@@ -1,6 +1,6 @@
 package com.ayush.FriendManagement.service;
 
-import com.ayush.FriendManagement.RepeatedFriendNameException;
+import com.ayush.FriendManagement.RepeatedArgumentException;
 import com.ayush.FriendManagement.exceptions.FriendAlreadyExistException;
 import com.ayush.FriendManagement.repository.FriendRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class FriendService {
     @Autowired
     private FriendRepository friendDao;
 
-    public boolean createFriendShip(final List<String> emails) throws RepeatedFriendNameException, IllegalArgumentException {
+    public boolean createFriendShip(final List<String> emails) throws RepeatedArgumentException, IllegalArgumentException {
         if(emails == null || emails.size() != FRIEND_EMAIL_LENGTH){
             throw new IllegalArgumentException("Parameters are not according to contract");
         }
@@ -26,7 +26,7 @@ public class FriendService {
         String email2Processed = emails.get(1).toLowerCase().trim();
 
         if(email1Processed.equals(email2Processed)){
-            throw new RepeatedFriendNameException(emails.get(0), emails.get(1));
+            throw new RepeatedArgumentException(emails.get(0), emails.get(1));
         }
 
         try{
@@ -52,7 +52,7 @@ public class FriendService {
         String email2Processed = emails.get(1).toLowerCase().trim();
 
         if(email1Processed.equals(email2Processed)){
-            throw new RepeatedFriendNameException(emails.get(0), emails.get(1));
+            throw new RepeatedArgumentException(emails.get(0), emails.get(1));
         }
 
         return friendDao.getMutualFriends(email1Processed, email2Processed);

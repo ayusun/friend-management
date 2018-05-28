@@ -1,6 +1,6 @@
 package com.ayush.FriendManagement.controller;
 
-import com.ayush.FriendManagement.RepeatedFriendNameException;
+import com.ayush.FriendManagement.RepeatedArgumentException;
 import com.ayush.FriendManagement.enums.ErrorEnums;
 import com.ayush.FriendManagement.exceptions.FriendAlreadyExistException;
 import com.ayush.FriendManagement.requestVO.FriendsVO;
@@ -50,7 +50,7 @@ public class FriendController {
                 .body(GetFriendsResponse.createFriendResponse(mutualFriends));
     }
 
-    @ExceptionHandler(RepeatedFriendNameException.class)
+    @ExceptionHandler(RepeatedArgumentException.class)
     public ErrorResponseVo handleRepeatedFriendNameException(){
         return ErrorResponseVo.createErrorResponse(ErrorEnums.DUPLICATE_FRIEND_NAME_INPUT);
     }

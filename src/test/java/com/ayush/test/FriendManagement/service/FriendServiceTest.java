@@ -1,6 +1,6 @@
 package com.ayush.test.FriendManagement.service;
 
-import com.ayush.FriendManagement.RepeatedFriendNameException;
+import com.ayush.FriendManagement.RepeatedArgumentException;
 import com.ayush.FriendManagement.exceptions.FriendAlreadyExistException;
 import com.ayush.FriendManagement.repository.FriendRepository;
 import com.ayush.FriendManagement.service.FriendService;
@@ -32,7 +32,7 @@ public class FriendServiceTest {
     @InjectMocks
     private FriendService serviceUnderTest;
 
-    @Test(expected = RepeatedFriendNameException.class)
+    @Test(expected = RepeatedArgumentException.class)
     public void testCreateFriendShipWithTwoSameNames(){
         String email1 = "abc@example.com";
         String email2 = "ABC@example.com";
@@ -81,7 +81,7 @@ public class FriendServiceTest {
         assertThat(returnList.size(), is(equalTo(2)));
     }
 
-    @Test(expected = RepeatedFriendNameException.class)
+    @Test(expected = RepeatedArgumentException.class)
     public void testGetMutualFriendsWithTwoSameNames(){
         String email1 = "abc@example.com";
         String email2 = "ABC@example.com";
