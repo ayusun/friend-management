@@ -43,6 +43,13 @@ public class FriendController {
                 .body(GetFriendsResponse.createFriendResponse(friends));
     }
 
+    @PostMapping(value = "/mutual-friends")
+    public ResponseEntity<GetFriendsResponse> getMutualFriends(@RequestBody final FriendsVO friend){
+        List<String> mutualFriends = friendService.getMutualFriends(friend.getFriends());
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(GetFriendsResponse.createFriendResponse(mutualFriends));
+    }
+
     @ExceptionHandler(RepeatedFriendNameException.class)
     public ErrorResponseVo handleRepeatedFriendNameException(){
         return ErrorResponseVo.createErrorResponse(ErrorEnums.DUPLICATE_FRIEND_NAME_INPUT);

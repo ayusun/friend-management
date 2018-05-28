@@ -41,5 +41,13 @@ public class FriendRepository {
                 .getResultList();
     }
 
+    public List<String> getMutualFriends(String email1, String email2){
+        return (List<String>)em.createNativeQuery("(select friend_email_to from friend where friend_email_from=:email1) INTERSECT" +
+                "(select friend_email_to from friend where friend_email_from=:email2)")
+                .setParameter("email1", email1)
+                .setParameter("email2", email2)
+                .getResultList();
+    }
+
 
 }

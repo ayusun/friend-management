@@ -42,6 +42,19 @@ public class FriendService {
             throw new IllegalArgumentException("Email Cannot be empty");
         }
         return friendDao.getFriends(requestEmail);
+    }
 
+    public List<String> getMutualFriends(List<String> emails){
+        if(emails == null || emails.size() != FRIEND_EMAIL_LENGTH){
+            throw new IllegalArgumentException("Parameters are not according to contract");
+        }
+        String email1Processed = emails.get(0).toLowerCase().trim();
+        String email2Processed = emails.get(1).toLowerCase().trim();
+
+        if(email1Processed.equals(email2Processed)){
+            throw new RepeatedFriendNameException(emails.get(0), emails.get(1));
+        }
+
+        return friendDao.getMutualFriends(email1Processed, email2Processed);
     }
 }
