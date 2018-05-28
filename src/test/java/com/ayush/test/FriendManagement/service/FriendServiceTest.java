@@ -12,6 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -19,6 +20,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -62,5 +64,20 @@ public class FriendServiceTest {
         String email1 = "abc@example.com";
         String email2 = "def@example.com";
         boolean response = serviceUnderTest.createFriendShip(Arrays.asList(email1, email2));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetFriendsWithWrongEmail(){
+
+        String requestedEmail = "";
+        serviceUnderTest.getFriends(requestedEmail);
+    }
+
+    @Test
+    public void testGetFriends(){
+        String requestedEmail = "abc@example.com";
+        when(friendDao.getFriends(anyString())).thenReturn(Arrays.asList("test1@example.com", "test2@example.com"));
+        List<String> returnList = serviceUnderTest.getFriends(requestedEmail);
+        assertThat(returnList.size(), is(equalTo(2)));
     }
 }

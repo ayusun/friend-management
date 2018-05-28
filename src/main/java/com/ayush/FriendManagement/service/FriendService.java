@@ -20,7 +20,7 @@ public class FriendService {
 
     public boolean createFriendShip(final List<String> emails) throws RepeatedFriendNameException, IllegalArgumentException {
         if(emails == null || emails.size() != FRIEND_EMAIL_LENGTH){
-            throw new IllegalArgumentException("Parameters are not accoring to contract");
+            throw new IllegalArgumentException("Parameters are not according to contract");
         }
         String email1Processed = emails.get(0).toLowerCase().trim();
         String email2Processed = emails.get(1).toLowerCase().trim();
@@ -38,6 +38,9 @@ public class FriendService {
     }
 
     public List<String> getFriends(String requestEmail){
+        if(requestEmail == null || requestEmail.length() == 0){
+            throw new IllegalArgumentException("Email Cannot be empty");
+        }
         return friendDao.getFriends(requestEmail);
 
     }
