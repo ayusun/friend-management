@@ -34,5 +34,25 @@ public class BlockRepository {
         }
     }
 
+    /**
+     *
+     * @param email1
+     * @param email2
+     * @return
+     */
+    public BlockEntity getBlockEntity(String email1, String email2){
+        BlockEntity returnable = null;
+        BlockEntityPk pk= new BlockEntityPk();
+        pk.setEmailFrom(email1);
+        pk.setEmailTo(email2);
+        try{
+            returnable = em.find(BlockEntity.class, pk);
+        }catch(Exception e){
+
+        }
+
+        return returnable;
+    }
+
 
 }

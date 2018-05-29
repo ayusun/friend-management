@@ -51,5 +51,16 @@ public class BlockService {
         }
         return true;
     }
+
+    /**
+     * Given the two email address, we need to find if creating any relatioship is blocked or not
+     * @param email1
+     * @param email2
+     * @return
+     */
+    public boolean isRelationShipBlocked(String email1, String email2){
+        return blockDao.getBlockEntity(email1, email2) != null ||
+                blockDao.getBlockEntity(email2, email1) != null;
+    }
 }
 

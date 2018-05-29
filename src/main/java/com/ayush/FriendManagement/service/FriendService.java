@@ -2,6 +2,7 @@ package com.ayush.FriendManagement.service;
 
 import com.ayush.FriendManagement.RepeatedArgumentException;
 import com.ayush.FriendManagement.exceptions.FriendAlreadyExistException;
+import com.ayush.FriendManagement.exceptions.FriendshipBlockedException;
 import com.ayush.FriendManagement.repository.FriendRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,6 +24,9 @@ public class FriendService {
     @Autowired
     private FriendRepository friendDao;
 
+    @Autowired
+    private BlockService blockService;
+
     /**
      * This method created friendship between two emails provided
      *
@@ -33,8 +37,9 @@ public class FriendService {
      * @throws RepeatedArgumentException if both the item in the list are same
      * @throws IllegalArgumentException if either of the email is null, or blank
      * @throws FriendAlreadyExistException if friendship already exist in the database
+     * @throws FriendshipBlockedException if either of the email has blccked someone
      */
-    public boolean createFriendShip(final List<String> emails) throws RepeatedArgumentException, IllegalArgumentException, FriendAlreadyExistException {
+    public boolean createFriendShip(final List<String> emails) throws RepeatedArgumentException, IllegalArgumentException, FriendAlreadyExistException, FriendshipBlockedException {
         if(emails == null || emails.size() != FRIEND_EMAIL_LENGTH){
             throw new IllegalArgumentException("Parameters are not according to contract");
         }
@@ -43,6 +48,12 @@ public class FriendService {
 
         if(email1Processed.equals(email2Processed)){
             throw new RepeatedArgumentException(emails.get(0), emails.get(1));
+        }
+
+        //check if any of the two have blocked each other, if yes, we cannot create the friendship
+        if(blockService.isRelationShipBlocked(email1Processed, email2Processed)){
+            throw new FriendshipBlockedException(emails.get(0), emails.get(1));
+
         }
 
         try{

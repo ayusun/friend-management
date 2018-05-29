@@ -3,6 +3,7 @@ package com.ayush.FriendManagement.controller;
 import com.ayush.FriendManagement.RepeatedArgumentException;
 import com.ayush.FriendManagement.enums.ErrorEnums;
 import com.ayush.FriendManagement.exceptions.FriendAlreadyExistException;
+import com.ayush.FriendManagement.exceptions.FriendshipBlockedException;
 import com.ayush.FriendManagement.requestVO.FriendsVO;
 import com.ayush.FriendManagement.requestVO.GetFriendsRequestVO;
 import com.ayush.FriendManagement.service.FriendService;
@@ -58,5 +59,10 @@ public class FriendController {
     @ExceptionHandler(FriendAlreadyExistException.class)
     public ErrorResponseVo handleDuplicateFriendException(){
         return ErrorResponseVo.createErrorResponse(ErrorEnums.FRIEND_ALREADY_EXIST);
+    }
+
+    @ExceptionHandler(FriendshipBlockedException.class)
+    public ErrorResponseVo handleFriendShipBlockedException(){
+        return ErrorResponseVo.createErrorResponse(ErrorEnums.CREATING_FRIEND_BLOCKED);
     }
 }
