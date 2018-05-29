@@ -2,7 +2,9 @@ package com.ayush.test.FriendManagement.service;
 
 import com.ayush.FriendManagement.RepeatedArgumentException;
 import com.ayush.FriendManagement.exceptions.FriendAlreadyExistException;
+import com.ayush.FriendManagement.exceptions.FriendshipBlockedException;
 import com.ayush.FriendManagement.repository.FriendRepository;
+import com.ayush.FriendManagement.service.BlockService;
 import com.ayush.FriendManagement.service.FriendService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +31,9 @@ public class FriendServiceTest {
     @Mock
     private FriendRepository friendDao;
 
+    @Mock
+    private BlockService blockService;
+
     @InjectMocks
     private FriendService serviceUnderTest;
 
@@ -52,10 +57,21 @@ public class FriendServiceTest {
     @Test
     public void testCreateFriendShipWithValidData(){
         doNothing().when(friendDao).saveFriendShip(anyString(), anyString());
+        when(blockService.isRelationShipBlocked(anyString(), anyString())).thenReturn(Boolean.FALSE);
         String email1 = "abc@example.com";
         String email2 = "def@example.com";
         boolean response = serviceUnderTest.createFriendShip(Arrays.asList(email1, email2));
         assertThat(response, is(equalTo(true)));
+    }
+
+    @Test(expected = FriendshipBlockedException.class)
+    public void testCreateFriendShipWithValidDataAndBlockingRecordPresent(){
+        //doNothing().when(friendDao).saveFriendShip(anyString(), anyString());
+        when(blockService.isRelationShipBlocked(anyString(), anyString())).thenReturn(Boolean.TRUE);
+        String email1 = "abc@example.com";
+        String email2 = "def@example.com";
+        boolean response = serviceUnderTest.createFriendShip(Arrays.asList(email1, email2));
+        //assertThat(response, is(equalTo(true)));
     }
 
     @Test(expected = FriendAlreadyExistException.class)
