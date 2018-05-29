@@ -1,7 +1,9 @@
 package com.ayush.FriendManagement.service;
 
 import com.ayush.FriendManagement.RepeatedArgumentException;
+import com.ayush.FriendManagement.exceptions.BlockingAlreadyExistException;
 import com.ayush.FriendManagement.exceptions.SubscriptionAlreadyExistException;
+import com.ayush.FriendManagement.repository.BlockRepository;
 import com.ayush.FriendManagement.repository.SubscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -11,13 +13,13 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional
-public class SubscriptionService {
+public class BlockService {
 
     @Autowired
-    private SubscriptionRepository subscriptionDao;
+    private BlockRepository blockDao;
 
     /**
-     * This method created Subscription between two emails provided
+     * This method created Blocking record between two emails provided
      *
      * NOTE : Emails should have been verified before calling this method
      *
@@ -27,9 +29,9 @@ public class SubscriptionService {
      * @return
      * @throws RepeatedArgumentException if both the requestor and target are same
      * @throws IllegalArgumentException if either of the email is null, or blank
-     * @throws SubscriptionAlreadyExistException if subscription already exist in the database
+     * @throws BlockingAlreadyExistException if subscription already exist in the database
      */
-    public boolean createSubscription(final String requestor, final String target) throws RepeatedArgumentException, IllegalArgumentException {
+    public boolean createBlocking(final String requestor, final String target) throws RepeatedArgumentException, IllegalArgumentException {
 
         if(requestor == null || target == null || requestor.length() == 0 || target.length() == 0){
             throw new IllegalArgumentException("Parameters are not according to contract");
@@ -43,9 +45,9 @@ public class SubscriptionService {
         }
 
         try {
-            subscriptionDao.saveSubscription(email1Processed, email2Processed);
+            blockDao.saveBlock(email1Processed, email2Processed);
         } catch (DataIntegrityViolationException e) {
-            throw new SubscriptionAlreadyExistException();
+            throw new BlockingAlreadyExistException();
         }
         return true;
     }
