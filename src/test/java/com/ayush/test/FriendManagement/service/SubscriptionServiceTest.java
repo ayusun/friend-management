@@ -46,22 +46,22 @@ public class SubscriptionServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreateFriendShipWithBlankTargetEmail(){
+    public void testCreateSubscriptionWithBlankTargetEmail(){
         serviceUnderTest.createSubscription("abc@example.com", "");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreateFriendShipWithRequestorEmail(){
+    public void testCreateSubscriptionWithRequestorEmail(){
         serviceUnderTest.createSubscription("abc@example.com", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreateFriendShipWithTargetEmail(){
+    public void testCreateSubscriptionWithTargetEmail(){
         serviceUnderTest.createSubscription(null,"abc@example.com");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreateFriendShipWithBlankRequestEmail(){
+    public void testCreateSubscriptionWithBlankRequestEmail(){
         serviceUnderTest.createSubscription("","abc@example.com");
     }
 
