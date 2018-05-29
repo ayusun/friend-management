@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -48,6 +49,11 @@ public class SubscriptionService {
             throw new SubscriptionAlreadyExistException();
         }
         return true;
+    }
+
+    public List<String> getSubscriber(String emailId){
+        return subscriptionDao.getSubscribers(emailId);
+
     }
 }
 

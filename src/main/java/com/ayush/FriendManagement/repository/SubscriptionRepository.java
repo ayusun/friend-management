@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class SubscriptionRepository {
@@ -34,6 +36,15 @@ public class SubscriptionRepository {
         } catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public List<String> getSubscribers(String email){
+        List<String> subscribers= new ArrayList<>();
+        List<SubscriptionEntity> subscribersEntityList = em.createQuery("SELECT sub FROM SubscriptionEntity sub WHERE sub.pk.emailTo=:email", SubscriptionEntity.class)
+                .setParameter("email", email)
+                .getResultList();
+        subscribers = subscribersEntityList.stream().map(sub -> sub.getPk().getEmailFrom()).collect(Collectors.toList());
+        return subscribers;
     }
 
 

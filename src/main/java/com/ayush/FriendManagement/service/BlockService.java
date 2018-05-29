@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -61,6 +62,10 @@ public class BlockService {
     public boolean isRelationShipBlocked(String email1, String email2){
         return blockDao.getBlockEntity(email1, email2) != null ||
                 blockDao.getBlockEntity(email2, email1) != null;
+    }
+
+    public List<String> getBlockers(String blockedEmailId){
+        return blockDao.getBlockers(blockedEmailId);
     }
 }
 

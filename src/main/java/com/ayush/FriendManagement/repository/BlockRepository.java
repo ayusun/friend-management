@@ -2,11 +2,15 @@ package com.ayush.FriendManagement.repository;
 
 import com.ayush.FriendManagement.entity.BlockEntity;
 import com.ayush.FriendManagement.entity.BlockEntityPk;
+import com.ayush.FriendManagement.entity.SubscriptionEntity;
 import com.ayush.FriendManagement.entity.SubscriptionEntityPk;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class BlockRepository {
@@ -52,6 +56,15 @@ public class BlockRepository {
         }
 
         return returnable;
+    }
+
+    public List<String> getBlockers(String blockedEmailId){
+        List<String> blockers= new ArrayList<>();
+        List<BlockEntity> blockerEntityList = em.createQuery("SELECT block FROM BlockEntity block WHERE block.pk.emailTo=:email", BlockEntity.class)
+                .setParameter("email", blockedEmailId)
+                .getResultList();
+        blockers = blockerEntityList.stream().map(sub -> sub.getPk().getEmailFrom()).collect(Collectors.toList());
+        return blockers;
     }
 
 
